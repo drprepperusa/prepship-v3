@@ -7,10 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --experimental-strip-types --test test/*.test.ts"
   },
   "dependencies": {
-    "@prepshipv2/contracts": "*",
+    "@prepshipv2/contracts": "file:./packages/contracts",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
