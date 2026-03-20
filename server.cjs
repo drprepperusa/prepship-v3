@@ -1,10 +1,17 @@
 const express = require('express');
 const path = require('path');
 const http = require('http');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 4014;
 const API_BASE = process.env.API_BASE || 'http://127.0.0.1:3001';
+const SESSION_TOKEN = process.env.SESSION_TOKEN;
+
+if (!SESSION_TOKEN) {
+  console.error('[ERROR] SESSION_TOKEN not set in .env');
+  process.exit(1);
+}
 
 // Middleware
 app.use(express.json());
@@ -21,18 +28,17 @@ app.use('/api', async (req, res) => {
   }
 
   try {
-    const token = process.env.SESSION_TOKEN || 'dev-only-insecure-token-change-me';
-    console.log(`[API PROXY] GET ${url} | Params: ${JSON.stringify(req.query)} | Token: ${token.substring(0, 20)}...`);
+    console.log(`[API PROXY] ${req.method} ${url}`);
     
     const options = {
       method: req.method,
       headers: {
         ...req.headers,
-        'X-App-Token': token,
-        'Host': 'localhost:3001',  // Force localhost hostname for API
+        'X-App-Token': SESSION_TOKEN,
+        'Host': 'localhost:3001',
       },
     };
-    delete options.headers.host;  // Remove old host header
+    delete options.headers.host;
 
     const apiRes = await fetch(url, {
       ...options,
@@ -53,9 +59,34 @@ app.use('/api', async (req, res) => {
   }
 });
 
+// Inject SESSION_TOKEN into index.html
+app.get('/', (req, res) => {
+  const indexPath = path.join(__dirname, 'dist', 'index.html');
+  let html = fs.readFileSync(indexPath, 'utf-8');
+  
+  // Inject token into data attribute on <html> element
+  html = html.replace(
+    '<html',
+    `<html data-session-token="${SESSION_TOKEN}"`
+  );
+  
+  res.set('Content-Type', 'text/html');
+  res.send(html);
+});
+
 // SPA fallback: serve index.html for client-side routing
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  const indexPath = path.join(__dirname, 'dist', 'index.html');
+  let html = fs.readFileSync(indexPath, 'utf-8');
+  
+  // Inject token into data attribute on <html> element
+  html = html.replace(
+    '<html',
+    `<html data-session-token="${SESSION_TOKEN}"`
+  );
+  
+  res.set('Content-Type', 'text/html');
+  res.send(html);
 });
 
 // Start server

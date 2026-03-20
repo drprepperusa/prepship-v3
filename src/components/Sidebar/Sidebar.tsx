@@ -226,10 +226,15 @@ export default function Sidebar({ currentStatus, onSelectStatus, onShowView, mob
                     .map((store) => {
                       const counts = storeCountsByStatus[status] || {}
                       const count = (store.storeIds || []).reduce((sum: number, sid: number) => sum + (counts[sid] || 0), 0)
-                      return { store, count }
+                      // Calculate global total (sum across all statuses)
+                      const globalTotal = (['awaiting_shipment', 'shipped', 'cancelled'] as OrderStatus[]).reduce((sum, s) => {
+                        const c = storeCountsByStatus[s] || {}
+                        return sum + (store.storeIds || []).reduce((storeSum: number, sid: number) => storeSum + (c[sid] || 0), 0)
+                      }, 0)
+                      return { store, count, globalTotal }
                     })
                     .filter(({ store }) => useStoreVisibility(store.clientId))
-                    .sort(({ count: a }, { count: b }) => b - a)
+                    .sort(({ globalTotal: a }, { globalTotal: b }) => b - a)
                     .map(({ store, count }) => (
                       <div 
                         key={store.clientId} 

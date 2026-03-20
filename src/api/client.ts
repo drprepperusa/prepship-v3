@@ -29,9 +29,16 @@ export interface ApiError {
 
 export class ApiClient {
   private baseUrl: string;
+  private sessionToken: string;
 
-  constructor(baseUrl: string = "/api") {
+  constructor(baseUrl: string = "/api", sessionToken?: string) {
     this.baseUrl = baseUrl;
+    // Token from: explicit param > HTML data attribute > Vite env var > fallback
+    this.sessionToken = 
+      sessionToken || 
+      document.documentElement.dataset.sessionToken || 
+      (import.meta.env.VITE_SESSION_TOKEN as string) ||
+      "";
   }
 
   private async request<T>(
@@ -62,6 +69,7 @@ export class ApiClient {
         method,
         headers: {
           "Content-Type": "application/json",
+          ...(this.sessionToken && { "X-App-Token": this.sessionToken }),
         },
       };
 
@@ -334,4 +342,5 @@ export class ApiClient {
 }
 
 // Create global instance
+// Token will be injected server-side via index.html data attribute
 export const apiClient = new ApiClient();
