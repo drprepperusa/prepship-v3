@@ -14,10 +14,10 @@ export default defineConfig({
     ],
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:3001',
+        target: 'http://127.0.0.1:4010',
         changeOrigin: true,
         headers: {
-          'X-App-Token': process.env.SESSION_TOKEN || '2431ac56eba4fdda-efde772175b96d2fe648a5df5a2126b0fff9ac3a6ef482b',
+          'X-App-Token': process.env.SESSION_TOKEN || 'b05b4996d27144788a085477e5db30fbe2e057c7029ab2617647704bf3a07c75',
         },
       },
     },
@@ -26,6 +26,6 @@ export default defineConfig({
     outDir: 'dist',
   },
   define: {
-    'import.meta.env.VITE_SESSION_TOKEN': JSON.stringify(process.env.SESSION_TOKEN || '2431ac56eba4fdda-efde772175b96d2fe648a5df5a2126b0fff9ac3a6ef482b'),
+    'import.meta.env.VITE_SESSION_TOKEN': JSON.stringify(process.env.SESSION_TOKEN || 'b05b4996d27144788a085477e5db30fbe2e057c7029ab2617647704bf3a07c75'),
   },
 })

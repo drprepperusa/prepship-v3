@@ -51,13 +51,13 @@ function ToastContainer({ toasts, onRemove }: ToastContainerProps) {
     <div
       style={{
         position: 'fixed',
-        bottom: '24px',
+        bottom: '1.5rem',
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: 9999,
         display: 'flex',
         flexDirection: 'column',
-        gap: '8px',
+        gap: '0.5rem',
         pointerEvents: 'none',
       }}
     >
@@ -66,12 +66,12 @@ function ToastContainer({ toasts, onRemove }: ToastContainerProps) {
           key={toast.id}
           onClick={() => onRemove(toast.id)}
           style={{
-            padding: '10px 18px',
-            borderRadius: '8px',
-            fontSize: '13px',
+            padding: '0.625rem 1.125rem',
+            borderRadius: '0.5rem',
+            fontSize: '0.8125rem',
             fontWeight: '500',
-            maxWidth: '420px',
-            boxShadow: '0 4px 20px rgba(0,0,0,.3)',
+            maxWidth: '26.25rem',
+            boxShadow: '0 0.25rem 1.25rem rgba(0,0,0,.3)',
             animation: 'fadeIn 0.3s ease-in',
             pointerEvents: 'auto',
             cursor: 'pointer',

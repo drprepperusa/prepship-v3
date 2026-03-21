@@ -153,7 +153,7 @@ export default function Sidebar({ currentStatus, onSelectStatus, onShowView, mob
         // Mobile: fixed, slides in from left
         ...(typeof window !== 'undefined' && window.innerWidth <= 768 ? {
           position: 'fixed',
-          left: mobileMenuOpen ? 0 : '-280px',
+          left: mobileMenuOpen ? 0 : '-17.5rem',
           top: 0,
           bottom: 0,
           zIndex: 1000,
@@ -172,22 +172,22 @@ export default function Sidebar({ currentStatus, onSelectStatus, onShowView, mob
             placeholder="Search Orders…"
             value={searchValue}
             onChange={e => handleSearchChange(e.target.value)}
-            style={{ paddingRight: searchValue ? '28px' : undefined }}
+            style={{ paddingRight: searchValue ? '1.75rem' : undefined }}
           />
           {searchValue && (
             <button
               onClick={handleClearSearch}
               style={{
                 position: 'absolute',
-                right: '12px',
+                right: '0.75rem',
                 top: '50%',
                 transform: 'translateY(-50%)',
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
                 color: 'var(--text3)',
-                fontSize: '13px',
-                padding: '2px',
+                fontSize: '0.8125rem',
+                padding: '0.125rem',
                 lineHeight: 1,
               }}
             >
@@ -269,7 +269,7 @@ export default function Sidebar({ currentStatus, onSelectStatus, onShowView, mob
                 key={view}
                 className="sidebar-tool-item"
                 onClick={() => onShowView(view)}
-                style={{ minHeight: '44px', display: 'flex', alignItems: 'center' }}
+                style={{ minHeight: '2.75rem', display: 'flex', alignItems: 'center' }}
               >
                 <span className="sidebar-tool-icon">{icon}</span> {label}
               </div>
@@ -279,7 +279,7 @@ export default function Sidebar({ currentStatus, onSelectStatus, onShowView, mob
 
         <div className="sidebar-bottom">
           <div><span className="conn-dot"></span>ShipStation Connected</div>
-          <div style={{ marginTop: '2px' }}>DR PREPPER USA · Gardena CA</div>
+          <div style={{ marginTop: '0.125rem' }}>DR PREPPER USA · Gardena CA</div>
         </div>
       </div>
     </>

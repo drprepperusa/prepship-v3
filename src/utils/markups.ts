@@ -150,8 +150,8 @@ export function formatOrionRateDisplay(
   const baseCost = (rate.shipmentCost ?? rate.amount ?? 0) + (rate.otherCost ?? 0);
   const markedCost = applyCarrierMarkup(rate, markupsMap);
 
-  const mainSize = opts?.mainSize || '13px';
-  const subSize = opts?.subSize || '10px';
+  const mainSize = opts?.mainSize || '0.8125rem';
+  const subSize = opts?.subSize || '0.625rem';
   const mainColor = opts?.mainColor || 'var(--green)';
 
   if (baseCost < 0.005 && markedCost < 0.005) {
