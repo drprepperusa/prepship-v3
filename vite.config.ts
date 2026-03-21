@@ -19,6 +19,12 @@ export default defineConfig({
         headers: {
           'X-App-Token': process.env.SESSION_TOKEN || 'b05b4996d27144788a085477e5db30fbe2e057c7029ab2617647704bf3a07c75',
         },
+        onProxyRes: (proxyRes, req, res) => {
+          // Add CORS headers for tunnel access
+          proxyRes.headers['Access-Control-Allow-Origin'] = '*';
+          proxyRes.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, PATCH, OPTIONS';
+          proxyRes.headers['Access-Control-Allow-Headers'] = 'Content-Type, X-App-Token, Authorization';
+        },
       },
     },
   },
