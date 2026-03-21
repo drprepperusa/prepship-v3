@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { useStoreOrders, useStores } from '../../hooks'
-import { useStoreVisibilityContext } from '../../contexts/StoreVisibilityContext'
+import { useStoreVisibility } from '../../contexts/StoreVisibilityContext'
 import { getOrdersDateRange } from '../Views/orders-view-filters'
 import './Sidebar.css'
 
@@ -36,13 +36,11 @@ export default function Sidebar({ currentStatus, onSelectStatus, onShowView, mob
   const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const { stores } = useStores()
-  const { useStoreVisibility } = useStoreVisibilityContext()
-
-  const { visibilityState } = useStoreVisibilityContext()
+  const { visibleStores } = useStoreVisibility()
 
   useEffect(() => {
     fetchStatusCounts()
-  }, [visibilityState, dateFilter])
+  }, [visibleStores, dateFilter])
 
   const fetchStatusCounts = async () => {
     const fetchWithRetry = async (url: string, maxRetries = 3): Promise<Record<number, number>> => {
@@ -233,7 +231,7 @@ export default function Sidebar({ currentStatus, onSelectStatus, onShowView, mob
                       }, 0)
                       return { store, count, globalTotal }
                     })
-                    .filter(({ store }) => useStoreVisibility(store.clientId))
+                    .filter(({ store }) => visibleStores.has(store.clientId.toString()))
                     .sort(({ globalTotal: a }, { globalTotal: b }) => b - a)
                     .map(({ store, count }) => (
                       <div 
